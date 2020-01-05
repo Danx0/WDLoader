@@ -26,7 +26,6 @@ public class SparqlJsonParser {
                 list.add(astro);
             }
         }
-        int i = 42;
         return list;
     }
 
