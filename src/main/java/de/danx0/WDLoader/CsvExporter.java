@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 public class CsvExporter {
     private static final String EXPORT_FOLDER = "wdloader_export/";
+    private String[] header;
 
-    public CsvExporter() {
+    public CsvExporter(String[] header) {
+        this.header = header;
         init();
     }
 
@@ -21,20 +24,36 @@ public class CsvExporter {
         }
     }
 
-    public void exportAstronauts(List<Astronaut> list) {
-        try (FileWriter writer = new FileWriter(EXPORT_FOLDER + "astro.csv")) {
-            writer.write("astronaut;astronautLabel;image;birthdate;birthplace;coord\n");
+    public void export(List<Map<String,String>> list) {
+        try (FileWriter writer = new FileWriter(EXPORT_FOLDER + "export.csv")) {
+            writeHeader(writer);
 
-            for (Astronaut astro : list) {
-                writer.write(astro.astronaut + ";");
-                writer.write(astro.astronautLabel + ";");
-                writer.write(astro.image + ";");
-                writer.write(astro.birthdate + ";");
-                writer.write(astro.birthplace + ";");
-                writer.write(astro.coord + "\n");
-            }
+            for (Map<String, String> map : list)
+                writeElement(writer, map);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void writeElement(FileWriter writer, Map<String, String> map) throws IOException {
+        for(int i = 0; i < header.length; i++) {
+            writer.write(map.get(header[i]));
+
+            if(i < header.length - 1)
+                writer.write(";");
+            else
+                writer.write("\n");
+        }
+    }
+
+    private void writeHeader(FileWriter writer) throws IOException {
+        for(int i = 0; i < header.length; i++) {
+            writer.write(header[i]);
+
+            if(i < header.length - 1)
+                writer.write(";");
+            else
+                writer.write("\n");
         }
     }
 }

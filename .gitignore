@@ -37,3 +37,6 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+# Export folder
+/wdloader_export/

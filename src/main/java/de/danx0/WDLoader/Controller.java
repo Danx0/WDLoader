@@ -1,6 +1,7 @@
 package de.danx0.WDLoader;
 
 import java.util.List;
+import java.util.Map;
 
 public class Controller {
     public static void main(String[] args) {
@@ -13,9 +14,10 @@ public class Controller {
         String result = server.loadData();
         if(result != null) {
             SparqlJsonParser parser = new SparqlJsonParser();
-            List<Astronaut> astroList = parser.parseSpace(result);
-            CsvExporter exporter = new CsvExporter();
-            exporter.exportAstronauts(astroList);
+            List<Map<String,String>> list = parser.parse(result);
+            String[] header = parser.getHeader();
+            CsvExporter exporter = new CsvExporter(header);
+            exporter.export(list);
         }
     }
 }
