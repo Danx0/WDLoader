@@ -7,7 +7,6 @@ import java.util.*;
 public class SparqlJsonParser {
     private String[] header;
 
-    //private class
     public List<Map<String, String>> parse(String result) {
         List<Map<String, String>> list = new ArrayList<>();
 
